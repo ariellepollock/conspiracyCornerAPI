@@ -2,8 +2,7 @@
 Backend server for the Conspiracy Corner app, with auth and mongoose relationships, etc.
 
 ## ERD
-<img width="853" alt="Screen Shot 2024-02-08 at 5 09 59 PM" src="https://github.com/ariellepollock/project4-conspiracy/assets/149843908/3f3763e7-f75c-4169-b438-49953f884d46">
-
+![alt text](<Screen Shot 2024-02-10 at 3.54.58 PM.png>)
 
 ## Routes
 
