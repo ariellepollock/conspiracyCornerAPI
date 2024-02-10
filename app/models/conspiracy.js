@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const elementSchema = require('./element')
 
 const conspiracySchema = new mongoose.Schema(
 	{
@@ -6,18 +7,15 @@ const conspiracySchema = new mongoose.Schema(
 			type: Date,
 			required: true,
 		},
-		storySchema: {
-			type: String,
+		story: {
+			type: Schema.Types.ObjectId,
+            ref: 'Story',
 			required: true,
 		},
-        elements: {
-			type: String,
-			required: true,
-		},
+        elements: [elementSchema],
 		owner: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
-			required: true,
 		},
 	},
 	{
