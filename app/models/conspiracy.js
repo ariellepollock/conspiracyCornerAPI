@@ -2,11 +2,12 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const elementSchema = require('./element')
 
-const conspiracySchema = new mongoose.Schema(
+const conspiracySchema = new Schema(
 	{
 		date: {
 			type: Date,
 			required: true,
+            default: Date.now
 		},
 		story: {
 			type: Schema.Types.ObjectId,
@@ -15,7 +16,7 @@ const conspiracySchema = new mongoose.Schema(
 		},
         elements: [elementSchema],
 		owner: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: Schema.Types.ObjectId,
 			ref: 'User',
 		},
 	},

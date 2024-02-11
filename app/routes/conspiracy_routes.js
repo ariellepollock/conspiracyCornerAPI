@@ -56,7 +56,7 @@ router.post('/conspiracies', requireToken, (req, res, next) => {
 	req.body.conspiracy.owner = req.user.id
 
     // extract storyId and elements from req.body
-    const { storyId, elements } = req.body.conspiracy
+    const { story: storyId, elements } = req.body.conspiracy
 
     // find story template by storyId
     Story.findById(storyId)

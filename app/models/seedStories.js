@@ -1,7 +1,7 @@
 // npm run seed
 
 const mongoose = require('mongoose')
-const Story = require('./models/story')
+const Story = require('./story')
 const db = require('../../config/db')
 
 const startStories = [

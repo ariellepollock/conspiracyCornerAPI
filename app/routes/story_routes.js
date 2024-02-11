@@ -42,4 +42,33 @@ router.get('/stories/:id/template', (req, res, next) => {
         .catch(next)
 })
 
+// CREATE - only to be used via postman - will not be accessible to user
+// POST /stories
+router.post('/stories', (req, res) => {
+    const { title, template } = req.body
+
+    Story.create({ title, template })
+        .then(story => {
+            res.status(201).json({ story })
+        })
+        .catch(error => {
+            res.status(400).json({ error: error.message })
+        })
+})
+
+// DESTROY
+// DELETE /stories/5a7db6c74d55bc51bdf39793
+router.delete('/stories/:id', (req, res, next) => {
+	Story.findById(req.params.id)
+		.then(handle404)
+		.then((story) => {
+			// delete the story
+			story.deleteOne()
+		})
+		// send back 204 and no content if the deletion succeeded
+		.then(() => res.sendStatus(204))
+		// if an error occurs, pass it to the handler
+		.catch(next)
+})
+
 module.exports = router

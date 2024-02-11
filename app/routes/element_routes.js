@@ -10,8 +10,8 @@ const handle404 = customErrors.handle404
 const requireOwnership = customErrors.requireOwnership
 const removeBlanks = require('../../lib/remove_blank_fields')
 const requireToken = passport.authenticate('bearer', { session: false })
-const router = express.Router()
 
+const router = express.Router()
 
 //+//+//+//+//+//+//+//+//+//+//+//+//+//+//+//
 // routes go here
@@ -27,10 +27,10 @@ router.post('/elements/:conspiracyId', removeBlanks, (req, res, next) => {
 
 	Conspiracy.findById(conspiracyId)
 		.then(handle404)
-		.then((conspiracy) => {
+		.then((conspiracy) => { 
             conspiracy.elements.push(element)
 
-			return element.save()
+			return conspiracy.save()
 		})
         .then(conspiracy => res.status(201).json({ conspiracy: conspiracy }))
 		.catch(next)
