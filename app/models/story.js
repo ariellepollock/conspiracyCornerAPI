@@ -6,7 +6,7 @@ const storySchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		storyTemplate: {
+		template: {
 			type: String,
 			required: true,
 		}
