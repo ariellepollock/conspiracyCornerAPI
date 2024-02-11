@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 const elementSchema = require('./element')
 
 const conspiracySchema = new mongoose.Schema(
