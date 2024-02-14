@@ -42,6 +42,7 @@ router.get('/conspiracies', (req, res, next) => {
 router.get('/conspiracies/:id', (req, res, next) => {
 	// req.params.id will be set based on the `:id` in the route
 	Conspiracy.findById(req.params.id)
+		.populate('story')
 		.then(handle404)
 		// if `findById` is succesful, respond with 200 and "conspiracy" JSON
 		.then((conspiracy) => res.status(200).json({ conspiracy: conspiracy.toObject() }))
