@@ -26,6 +26,7 @@ const router = express.Router()
 router.get('/conspiracies', (req, res, next) => {
 	Conspiracy.find()
 		.populate('story')
+		.sort({ date: -1 }) // date in descending order
 		.then((conspiracies) => {
 			// `conspiracies` will be an array of Mongoose documents
 			// we want to convert each one to a POJO, so we use `.map` to
