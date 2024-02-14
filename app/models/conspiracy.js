@@ -15,6 +15,10 @@ const conspiracySchema = new Schema(
 			required: true,
 		},
         elements: [elementSchema],
+		filledStory: {
+			type: String,
+			required: true,
+		},
 		owner: {
 			type: Schema.Types.ObjectId,
 			ref: 'User',

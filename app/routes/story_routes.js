@@ -34,7 +34,7 @@ router.get('/stories', (req, res, next) => {
 })
 
 // SHOW - template
-// GET /stories/:id/template
+// GET /stories/:id
 router.get('/stories/:id', (req, res, next) => {
     Story.findById(req.params.id)
         .then(handle404)
