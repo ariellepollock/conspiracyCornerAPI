@@ -91,26 +91,45 @@ router.post('/conspiracies', requireToken, (req, res, next) => {
 
 // UPDATE
 // PATCH /conspiracies/5a7db6c74d55bc51bdf39793
+const replacePlaceholdersWithContent = (template, elements) => {
+    let filledTemplate = template;
+    elements.forEach(element => {
+        const placeholderRegex = new RegExp(`{${element.placeholder}}`, 'g');
+        filledTemplate = filledTemplate.replace(placeholderRegex, element.content);
+    });
+    return filledTemplate;
+};
+
 router.patch('/conspiracies/:id', requireToken, removeBlanks, (req, res, next) => {
-	// if the client attempts to change the `owner` property by including a new
-	// owner, prevent that by deleting that key/value pair
-	delete req.body.conspiracy.owner
+    delete req.body.conspiracy.owner;
 
-	Conspiracy.findById(req.params.id)
-		.then(handle404)
-		.then((conspiracy) => {
-			// pass the `req` object and the Mongoose record to `requireOwnership`
-			// it will throw an error if the current user isn't the owner
-			requireOwnership(req, conspiracy)
+    Conspiracy.findById(req.params.id)
+        .then(handle404)
+        .then(conspiracy => {
+            requireOwnership(req, conspiracy);
 
-			// pass the result of Mongoose's `.update` to the next `.then`
-			return conspiracy.updateOne(req.body.conspiracy)
-		})
-		// if that succeeded, return 204 and no JSON
-		.then(() => res.sendStatus(204))
-		// if an error occurs, pass it to the handler
-		.catch(next)
-})
+            // Additional logic to update story content
+            return Story.findById(conspiracy.story).then(story => {
+                const updatedFilledStory = replacePlaceholdersWithContent(story.template, req.body.conspiracy.elements);
+                const updatedConspiracyData = {
+                    ...req.body.conspiracy,
+                    filledStory: updatedFilledStory, // Update the filled story content
+                };
+
+                // Perform the update on the conspiracy document
+                return conspiracy.updateOne(updatedConspiracyData).then(() => {
+                    // After updating, fetch the updated conspiracy document to include in the response
+                    return Conspiracy.findById(req.params.id)
+                        .populate('story')
+                        .then(updatedConspiracy => {
+                            // Return the updated conspiracy object in the response
+                            res.status(200).json({ conspiracy: updatedConspiracy.toObject() });
+                        });
+                });
+            });
+        })
+        .catch(next);
+});
 
 // DESTROY
 // DELETE /conspiracies/5a7db6c74d55bc51bdf39793
