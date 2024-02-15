@@ -24,7 +24,7 @@ const router = express.Router()
 // INDEX
 // GET /conspiracies
 router.get('/conspiracies', requireToken, (req, res, next) => {
-	Conspiracy.find({ owner: req.user.id })
+	Conspiracy.find()
 		.populate('story')
 		.sort({ date: -1 }) // date in descending order
 		.then((conspiracies) => {
@@ -34,7 +34,7 @@ router.get('/conspiracies', requireToken, (req, res, next) => {
 			return conspiracies.map((conspiracy) => conspiracy.toObject())
 		})
 		// respond with status 200 and JSON of the conspiracies
-		.then((conspiracies) => res.status(200).json({ conspiracies }))
+		.then((conspiracies) => res.status(200).json({ conspiracies: conspiracies }))
 		// if an error occurs, pass it to the handler
 		.catch(next)
 })
