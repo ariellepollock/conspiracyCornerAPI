@@ -23,20 +23,18 @@ const router = express.Router()
 
 // INDEX
 // GET /conspiracies
-router.get('/conspiracies', (req, res, next) => {
-	Conspiracy.find()
+router.get('/conspiracies', requireToken, (req, res, next) => {
+	Conspiracy.find({ owner: req.user.id })
 		.populate('story')
 		.sort({ date: -1 }) // date in descending order
 		.then((conspiracies) => {
 			// `conspiracies` will be an array of Mongoose documents
 			// we want to convert each one to a POJO, so we use `.map` to
 			// apply `.toObject` to each one
-			requireOwnership(req, conspiracy)
-			
 			return conspiracies.map((conspiracy) => conspiracy.toObject())
 		})
 		// respond with status 200 and JSON of the conspiracies
-		.then((conspiracies) => res.status(200).json({ conspiracies: conspiracies }))
+		.then((conspiracies) => res.status(200).json({ conspiracies }))
 		// if an error occurs, pass it to the handler
 		.catch(next)
 })
