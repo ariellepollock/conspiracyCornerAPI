@@ -31,6 +31,8 @@ router.get('/conspiracies', (req, res, next) => {
 			// `conspiracies` will be an array of Mongoose documents
 			// we want to convert each one to a POJO, so we use `.map` to
 			// apply `.toObject` to each one
+			requireOwnership(req, conspiracy)
+			
 			return conspiracies.map((conspiracy) => conspiracy.toObject())
 		})
 		// respond with status 200 and JSON of the conspiracies
