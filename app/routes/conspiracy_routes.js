@@ -23,7 +23,7 @@ const router = express.Router()
 
 // INDEX
 // GET /conspiracies
-router.get('/conspiracies', requireToken, (req, res, next) => {
+router.get('/conspiracies', (req, res, next) => {
 	Conspiracy.find()
 		.populate('story')
 		.sort({ date: -1 }) // date in descending order
