@@ -1,5 +1,5 @@
 # Conspiracy Corner API
-Backend server for the Conspiracy Corner app, with auth and mongoose relationships, etc.
+Backend server for the [Conspiracy Corner App](https://github.com/ariellepollock/conspiracyCornerClient), with auth and mongoose relationships, etc.
 
 ## ERD
 ![alt text](<Screen Shot 2024-02-16 at 8.53.10 AM.png>)
