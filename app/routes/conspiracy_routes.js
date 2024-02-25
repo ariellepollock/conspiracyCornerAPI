@@ -22,9 +22,9 @@ const router = express.Router()
 //+//+//+//+//+//+//+//+//+//+//+//+//+//+//+//
 
 // INDEX
-// GET /conspiracies
-router.get('/conspiracies', (req, res, next) => {
-	Conspiracy.find()
+// GET /conspiracies/mine
+router.get('/conspiracies/mine', requireToken, (req, res, next) => {
+	Conspiracy.find({ owner: req.user.id })
 		.populate('story')
 		.sort({ date: -1 }) // date in descending order
 		.then((conspiracies) => {
